@@ -1,7 +1,7 @@
 # [1. leetcode 1]
 
 
-
+### 변경
 # 내가 푼 것 - 해쉬맵
 
 def F(nums, target):
