@@ -44,9 +44,9 @@ def import_bss():
   data = np.loadtxt('bss.dat', usecols=range(1,7))
   res = []
   for i, row in enumerate(data):
-    hms = hms2dec(row[0], row[1], row[2])
-    dms = dms2dec(row[3], row[4], row[5])
-    res.append((i+1, hms, dms))
+    r = hms2dec(row[0], row[1], row[2])
+    d = dms2dec(row[3], row[4], row[5])
+    res.append((i+1, r, d))
   return res
 
 def import_super():
