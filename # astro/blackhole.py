@@ -65,7 +65,6 @@ def import_super():
 
 # 가까운 물체 찾기
 
-import sys
 def find_closest(cat, r, d):
   res_id = None
   res_dist = np.inf
@@ -75,3 +74,18 @@ def find_closest(cat, r, d):
       res_dist = dist
       res_id = row[0]
   return (res_id, res_dist)
+
+
+
+# 두 카테고리에서 match인거 찾기
+
+def crossmatch(bss_cat, super_cat, max_dist):
+  matches = [] # (bss_ID, super_ID, 각거리)
+  no_matches = [] # bss_ID
+  for row in bss_cat:
+    super_ID, dist = find_closest(super_cat, row[1], row[2])
+    if dist < max_dist:
+      matches.append((row[0], super_ID, dist))
+    else:
+      no_matches.append(row[0])
+  return matches, no_matches
