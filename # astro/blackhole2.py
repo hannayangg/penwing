@@ -3,6 +3,12 @@
 
 import numpy as np
 import time
+
+def angular_dist(r1, d1, r2, d2):
+  a = np.sin(np.abs(d1-d2)/2)**2
+  b = np.cos(d1)*np.cos(d2)*np.sin(np.abs(r1-r2)/2)**2
+  return 2*np.arcsin(np.sqrt(a+b))
+
 def crossmatch(cat1, cat2, max_dist):
   start = time.time()
   max_dist = np.radians(max_dist)
@@ -20,13 +26,11 @@ def crossmatch(cat1, cat2, max_dist):
     min_id2 = None
 
     for id2, (r2, d2) in enumerate(cat2):
-      a = np.sin(np.abs(d1-d2)/2)**2
-      b = np.cos(d1) * np.cos(d2) * np.sin(np.abs(r1-r2)/2)**2
-      dist = 2 * np.arcsin(np.sqrt(a+b))
+      dist = angular_dist(r1, d1, r2, d2)
       # 가장 가까운 각거리 & 후보 업데이트
       if dist < min_dist:
         min_id2 = id2
-        min_dist = dist
+        min_dist = np.mean(dist)
     
     # 가장 가까운 각거리가 임계거리보다 작으면 통과!
     if min_dist > max_dist:
