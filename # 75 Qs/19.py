@@ -9,10 +9,9 @@ def F(s, wordDict):
     for w in wordDict:
       if s[i:i+len(w)] == w:
         dp[i] = dp[i+len(w)]
-      if dp[i]: break
+      # break 바로 하면 안됨.
+      # dp[i] = F일때 말고, T일 때만 break해야하기 때문.
+      if dp[i]:
+        break
   
   return dp[0]
-
-
-# s = "aaaaaaa" wordDict = ["aaaa","aaa"]
-# break 조건이 필요한 경우.

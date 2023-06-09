@@ -1,33 +1,39 @@
 # [20. leetcode 39]
 
 
+# 내가 푼 것
+def F(nums, target):
+    res = []
+    def _F(path, idx):
+        # 종료 조건
+        if sum(path)>target: return
+        if sum(path)==target:
+            res.append(path)
+            return
+        
+        # BT
+        for i in range(idx, len(nums)):
+          _F(path+[nums[i]], i)
+    _F([], 0)
+    return res
 
-# BT 느림.
-def S(candidates, target):
-  res = []
-  def F(com, curSum):
-    if com==0 and sorted(curSum) not in res:
-      res.append(sorted(curSum))
-      return
-    if com < 0:
-      return
-    for c in candidates:
-      F(com-c, curSum+[c])
-  F(target, [])
-  return res
 
 
-# 개선: 인덱스 범위 제한하여 중복 방지.
-def S(candidates, target):
-  res = []
-  def F(com, i, curSum):
-    if com == 0:
-      res.append(curSum)
-      return
-    if com < 0:
-      return
-    for j in range(i, len(candidates)):
-      c = candidates[j]
-      F(com-c, j, curSum+[c])
-  F(target, 0, [])
-  return res
+
+
+# neetcode
+def F(nums, target):
+    res = []
+    def _F(path, i):
+        # 종료 조건
+        if i>=len(nums): return 
+        if sum(path)>target: return
+        if sum(path)==target:
+            res.append(path)
+            return
+        
+        # BT
+        _F(path+[nums[i]], i)
+        _F(path, i+1)
+    _F([], 0)
+    return res
