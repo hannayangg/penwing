@@ -2,28 +2,24 @@
 
 
 
+# nums[-1] rob하면, nums[0]은 못함.
+# nums[0] rob 하면, nums[-1]은 못함.
+# 두 subproblems의 max를 구하기.
 
-# 21번문제 활용
 def F(nums):
-  if len(nums) == 1:
-    return nums[0]
-
   rob1, rob2 = 0, 0
-  p = nums.pop()
-  for n in nums:
-    tmp = max(rob1+n, rob2)
+  for i in range(1, len(nums)):
+    tmp = max(rob2, nums[i]+rob1)
     rob1 = rob2
     rob2 = tmp
   
-  rob3, rob4 = 0, 0
-  nums.append(p)
-  nums.pop(0)
-  for n in nums:
-    tmp = max(rob3+n, rob4)
-    rob3 = rob4
-    rob4 = tmp
+  rob1, rob2 = 0, 0
+  for i in range(len(nums)-1):
+    _tmp = max(rob2, nums[i]+rob1)
+    rob1 = rob2
+    rob2 = _tmp
 
-  return max(rob2, rob4)
+  return max(tmp, _tmp)
 
 
 
