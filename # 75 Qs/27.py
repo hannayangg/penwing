@@ -3,28 +3,27 @@
 
 # dfs(i) T: dp[i]==[] / F: loop(set 필요)
 
-def F(n, pre):
-  dp = [[] for _ in range(n)]
-  for v0, v1 in pre:
-    dp[v0].append(v1)
-  been = set()
-  def dfs(i):
-    if dp[i] == []: return True
-    if i in been: return False
-    been.add(i)
-    for j in dp[i]:
-      if not dfs(j): return False
-    been.remove(i)
-    dp[i] = []
+def _F(numCourses, prerequisites):
+  dp = [[] for _  in range(numCourses)]
+  for crs, pre in prerequisites:
+    dp[crs].append(pre)
+
+  def dfs(crs):
+    if dp[crs] is None: return True
+    if crs in been: return False
+    been.add(crs)
+    for pre in dp[crs]:
+      if not dfs(pre):
+        return False
+    been.remove(crs)
+    
+    dp[crs] = [] # 시간 초과하지 않으려면 필요한 구절!
+    # True인 코스는 빈 리스트로 만들어야,
+    # 다음에 방문했을 때 바로 True 리턴 가능
     return True
-  
-  for i in range(n):
-    if not dfs(i): return False
+
+  been = set()
+  for crs in range(numCourses):
+    if not dfs(crs):
+      return False
   return True
-
-
-
-# 주의! T일 경우, set에서 i 삭제.
-# n = 5, pre = [[0,1],[0,3],[1,2],[3,2]]
-# 주의! 모든 i를 돌림.(코스들 분리된 경우)
-# n = 4, pre = [[0,1],[2,3],[3,2]]
