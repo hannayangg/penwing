@@ -1,8 +1,6 @@
 # [27. leetcode 207]
 
 
-# dfs(i) T: dp[i]==[] / F: loop(set 필요)
-
 def _F(numCourses, prerequisites):
   dp = [[] for _  in range(numCourses)]
   for crs, pre in prerequisites:
@@ -10,20 +8,26 @@ def _F(numCourses, prerequisites):
 
   def dfs(crs):
     if dp[crs] is None: return True
-    if crs in been: return False
-    been.add(crs)
+    if crs in visit: return False
+    visit.add(crs)
     for pre in dp[crs]:
-      if not dfs(pre):
-        return False
-    been.remove(crs)
-    
-    dp[crs] = [] # 시간 초과하지 않으려면 필요한 구절!
-    # True인 코스는 빈 리스트로 만들어야,
-    # 다음에 방문했을 때 바로 True 리턴 가능
+      if not dfs(pre): return False
+    visit.remove(crs) # 중요   
+    dp[crs] = [] # 중요
+    # True코스를 비우면, 재방문시 바로 True 리턴.
     return True
 
-  been = set()
+  visit = set()
   for crs in range(numCourses):
     if not dfs(crs):
       return False
   return True
+
+
+
+# visit.remove()가 필요한 예: [[0,1],[0,2],[1,3]]
+# 재귀는 종료를 만날때까지 안으로 들어간다.
+
+# dfs(0, {}) -> dfs(1, {0}) -> dfs(3, {0,"1"}) -> True로 종료.
+# 그 다음에야 dfs(2, {0}) 를 진행하게 되는데,
+# 만약 remove조건이 없다면, dfs(2, {0,"1"}) 로 진행되게 된다. 
